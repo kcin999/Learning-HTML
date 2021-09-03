@@ -11,3 +11,10 @@ Trying to do this without third part stuff first to see if I can do it (i.e. wit
 - [ ] Create some Basic Games
 	- [ ] Pong
 	- [ ] Brick Breaker 
+- [ ] Embed some API Calls
+    - [ ] Github API
+    - [ ] Other Datapints
+- [ ] Hosting
+    - [ ] Learn how to host the site on Local Host
+        * (I think this is done through Apache)
+    - [ ] Host my own instance of a SQL database. 
