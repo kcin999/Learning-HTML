@@ -1,0 +1,30 @@
+
+
+p {
+    color: #1f06ad;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+head {
+    margin: 0;
+    padding: 0;
+}
+
+div#topBar{
+    height: 7vh;
+    min-height: 30px;
+    width: 100%;
+    min-width: 50px;
+    background-color: #1f06ad;
+}
+
+li {
+    margin-left: 1%;
+}
+h2 {
+    padding: 0px;
+}
