@@ -7,6 +7,7 @@ Trying to do this without third part stuff first to see if I can do it (i.e. wit
 - [ ] Edit looks of the website
 	- [ ] Add Pictures
 	- [ ] Make more modern, rather than just text
+        - [ ] Slideshow elements about me.  (Xavier, STL, PowerBI etc)
 	- [ ] Scrollable Page
 - [ ] Create some Basic Games
 	- [ ] Pong
@@ -15,6 +16,8 @@ Trying to do this without third part stuff first to see if I can do it (i.e. wit
     - [ ] Github API
     - [ ] Other Datapints
 - [ ] Hosting
-    - [ ] Learn how to host the site on Local Host
+    - [x] Learn how to host the site on Local Host
         * (I think this is done through Apache)
-    - [ ] Host my own instance of a SQL database. 
+        * Can confirm.  I am using apache2 through XAMPP on a linux VM
+    - [x] Host my own instance of a SQL database. 
+        - Done through XAMPP
