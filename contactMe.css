@@ -1,0 +1,19 @@
+
+.contactMe_images{
+    width: 35%;
+    margin: 7%
+}
+
+.contactMeLeftDiv{
+    width: 50%;
+    margin-right: -5%;
+}
+.contactMeRightDiv{
+    margin-top: 4%;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.contactItem {
+    display: flex;
+}
