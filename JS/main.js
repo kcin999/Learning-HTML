@@ -7,7 +7,7 @@ showSlides();
 
 function showSlides() {
   let i;
-  let slides = document.getElementsByClassName("mySlides");
+  let slides = document.getElementsByClassName('mySlides');
   console.log("I have " + slides.length + " slides")
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
