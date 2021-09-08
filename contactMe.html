@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="main.js"></script>
         <title>Contact Me!</title>
         <link rel="stylesheet" href="globalStyles.css">
         <link rel="stylesheet" href="contactMe.css">
+        <link rel="stylesheet" href="sideNav.css">
     </head>
-    <div id="topBar"></div>
-    <body>
+    <body id="main">
+        <div id="sideNav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+            <a href="index.html">Home</a>
+            <a href="contactMe.html">Contact Me</a>
+        </div>
+        <div id="topBar">
+            <svg viewBox="0 0 100 80" width="40" height="40" onclick="openSideNav()" style="cursor:pointer">
+                <rect x="15" y="10" width="100" height="20" class="menuIcon"></rect>
+                <rect x="15" y="40" width="100" height="20" class="menuIcon"></rect>
+                <rect x="15" y="70" width="100" height="20" class="menuIcon"></rect>
+            </svg>
+        </div>
         <div class="vertical_center horizontal_center" style="width: 50%;">
             <div class="contactItem">
                 <div class="contactMeLeftDiv">
@@ -37,9 +50,9 @@
             </div>
             <a href="index.html">Go back</a>
         </div>
+        <div id="bottomBar">
+            <p class="left_aligned"><a style="color: white;" href="contactMe.html">Contact me!</a></p>
+            <p class="right_aligned" style="color: white;">Inspired by <a style="color: white;" href="https://thesamdickey.com/">Sam Dickey</a></p>
+        </div>
     </body>
-    <div id="bottomBar">
-        <p class="left_aligned"><a style="color: white;" href="contactMe.html">Contact me!</a></p>
-        <p class="right_aligned" style="color: white;">Inspired by <a style="color: white;" href="https://thesamdickey.com/">Sam Dickey</a></p>
-    </div>
 </html>

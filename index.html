@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <script src="main.js"></script>
     <head>
+        <script src="main.js"></script>
         <title>Welcome!</title>
         <link rel="stylesheet" href="globalStyles.css">
+        <link rel="stylesheet" href="sideNav.css">
     </head>
-    <div id="topBar"></div>
     <body>
-        <p>Welcome to Nick's Webserver! This is where he tries (successfully or unsuccessfully) to do some front end development in HTML, CSS, JS, and maybe PHP.</p>
-        <p id="resultText"></p>
-    </body>
-    <div id="bottomBar">
-        <p class="right_aligned" style="color: white;">Inspired by <a style="color: white;" href="https://thesamdickey.com/">Sam Dickey</a></p>
-        <p class="left_aligned"><a style="color: white;" href="contactMe.html">Contact me!</a></p>
+        <div id="sideNav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+            <a href="index.html">Home</a>
+            <a href="contactMe.html">Contact Me</a>
+        </div>
+        <div id="main">
+            <div id="topBar">
+                <svg viewBox="0 0 100 80" width="40" height="40" onclick="openSideNav()" style="cursor:pointer">
+                    <rect x="15" y="10" width="100" height="20" class="menuIcon"></rect>
+                    <rect x="15" y="40" width="100" height="20" class="menuIcon"></rect>
+                    <rect x="15" y="70" width="100" height="20" class="menuIcon"></rect>
+                </svg>
+            </div>
+            <p>Welcome to Nick's Webserver! This is where he tries (successfully or unsuccessfully) to do some front end development in HTML, CSS, JS, and maybe PHP.</p>
+            <div id="bottomBar">
+                <p class="right_aligned" style="color: white;">Inspired by <a style="color: white;" href="https://thesamdickey.com/">Sam Dickey</a></p>
+                <p class="left_aligned"><a style="color: white;" href="contactMe.html">Contact me!</a></p>
+            </div>
     </div>
+    </body>
 </html>
