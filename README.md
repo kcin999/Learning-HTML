@@ -9,6 +9,8 @@ Trying to do this without third part stuff first to see if I can do it (i.e. wit
 	- [ ] Make more modern, rather than just text
         - [ ] Slideshow elements about me.  (Xavier, STL, PowerBI etc)
 	- [ ] Scrollable Page
+    - [x] Side Navigation Bar. 
+        - Helps the site look a lot better and clean. Need to learn how to update the rest of the page for that clean look
 - [ ] Create some Basic Games
 	- [ ] Pong
 	- [ ] Brick Breaker 

@@ -1,7 +1,7 @@
 
 
 p {
-    color: #1f06ad;
+    color: #111;
 }
 
 body {
@@ -19,13 +19,13 @@ div#topBar{
     min-height: 30px;
     width: 100%;
     min-width: 50px;
-    background-color: #1f06ad;
+    background-color: #111;
 }
 
 div#bottomBar {
     position: fixed;
     bottom: 0;
-    background-color: #1f06ad;
+    background-color: #111;
     height: 7vh;
     min-height: 30px;
     width: 100%;
