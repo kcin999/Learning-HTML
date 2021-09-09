@@ -75,3 +75,7 @@ h2 {
     margin: auto;
     text-align:center;
 }
+
+#main{
+    transition: margin-left .5s;
+}

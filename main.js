@@ -11,3 +11,14 @@ function closeSideNav(){
     document.getElementById("sideNav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
 }
+
+let navigationToggled = false;
+function toggleNav(){
+    if(!navigationToggled){
+        openSideNav();
+        navigationToggled = true;
+    }else{
+        closeSideNav();
+        navigationToggled = false;
+    }
+}
