@@ -6,8 +6,8 @@ var ctx = canvas.getContext("2d");
 var ballRadius = 10;
 var x = canvas.width/2;
 var y = canvas.height-30;
-var dx = 2;
-var dy = -2;
+var dx = 3;
+var dy = -3;
 //paddle elements
 var paddleHeight = 10;
 var paddleWidth = 75;
@@ -95,7 +95,7 @@ function mouseClicked(e){
       gamestate = "playGame"
     }
   } else if(gamestate == "paused"){
-    if((mousePos.x>= canvas.width/3 && mousePos.y <= canvas.width-canvas.width/4) && (mousePos.y >=canvas.height/3 && mousePos.y <= canvas.width-canvas.height/3)){
+    if((mousePos.x>= (canvas.width/3) && mousePos.x <= (canvas.width-canvas.width/4)) && (mousePos.y >=(canvas.height/3) && mousePos.y <= (canvas.height-canvas.height/3))){
       gamestate = "playGame"
     }
   }
@@ -118,6 +118,19 @@ function collisionDetection() {
         }
       }
     }
+  }
+}
+function changeBallSpeed(){
+  changeBy = .1
+  if(dy<1){
+    dy -= changeBy;
+  } else {
+    dy += changeBy;
+  }
+  if(dx<1){
+    dx -= changeBy;
+  } else {
+    dx += changeBy;
   }
 }
 function drawBall() {
@@ -177,6 +190,8 @@ function playGame(){
   }
   else if(y + dy > canvas.height-ballRadius) {
     if(x > paddleX && x < paddleX + paddleWidth) {
+      changeBallSpeed();
+      
       dy = -dy;
     }
     else {
@@ -230,18 +245,21 @@ function drawStartButton(){
   ctx.closePath()
 }
 function startMenu(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawTitle();
   drawStartButton();
 }
-function pauseMenu(){
+function drawResumeButton(){
   ctx.strokeStyle = 'white';
-  ctx.beginPath();
   ctx.moveTo(canvas.width/3, canvas.height/3);
   ctx.lineTo(canvas.width/3, canvas.height-canvas.height/3);
   ctx.lineTo(canvas.width-canvas.width/4, canvas.height/2);
   ctx.lineTo(canvas.width/3, canvas.height/3);
   ctx.fillStyle = 'white';
   ctx.fill();
+}
+function pauseMenu(){
+  drawResumeButton();
 }
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
