@@ -18,13 +18,13 @@ var rightPressed = false;
 var leftPressed = false;
 
 //Brick elemnts
-var brickRowCount = 3;
-var brickColumnCount = 3;
+var brickRowCount = 8;
+var brickColumnCount = 5;
 var brickWidth = 75;
 var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
+var brickOffsetLeft = 15;
 var bricks = [];
 for(var c=0; c<brickColumnCount; c++) {
   bricks[c] = [];
@@ -56,6 +56,12 @@ function keyDownHandler(e) {
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = true;
+    }else if(e.key =="Enter" && gamestate=="startMenu"){
+      gamestate = "playGame"
+    }else if(e.key=="Enter" && gamestate=="paused"){
+      gamestate="playGame"
+    }else if(e.key=="Escape" && gamestate=="playGame"){
+      gamestate = "paused"
     }
 }
 function keyUpHandler(e) {
@@ -67,7 +73,8 @@ function keyUpHandler(e) {
     }
 }
 function mouseMoveHandler(e) {
-  var relativeX = e.clientX - canvas.offsetLeft;
+  var rect = canvas.getBoundingClientRect();
+  var relativeX = e.clientX - rect.left;
   if(relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth/2;
   }
@@ -80,13 +87,19 @@ function getMousePosition(e){
   }
 }
 function mouseClicked(e){
-  console.log("Mouse clicked");
   let mousePos = getMousePosition(e);
   console.log(mousePos)
 
-  if((mousePos.x >= startBoxX && mousePos.x <= (startBoxX + startBoxWidth)) && (mousePos.y>=startBoxY && mousePos.y <=(startBoxY+startBoxHeight))){
-    gamestate = "playGame"
+  if(gamestate == "startMenu"){
+    if((mousePos.x >= startBoxX && mousePos.x <= (startBoxX + startBoxWidth)) && (mousePos.y>=startBoxY && mousePos.y <=(startBoxY+startBoxHeight))){
+      gamestate = "playGame"
+    }
+  } else if(gamestate == "paused"){
+    if((mousePos.x>= canvas.width/3 && mousePos.y <= canvas.width-canvas.width/4) && (mousePos.y >=canvas.height/3 && mousePos.y <= canvas.width-canvas.height/3)){
+      gamestate = "playGame"
+    }
   }
+
   
 }
 function collisionDetection() {
@@ -220,12 +233,24 @@ function startMenu(){
   drawTitle();
   drawStartButton();
 }
+function pauseMenu(){
+  ctx.strokeStyle = 'white';
+  ctx.beginPath();
+  ctx.moveTo(canvas.width/3, canvas.height/3);
+  ctx.lineTo(canvas.width/3, canvas.height-canvas.height/3);
+  ctx.lineTo(canvas.width-canvas.width/4, canvas.height/2);
+  ctx.lineTo(canvas.width/3, canvas.height/3);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+}
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if(gamestate == "playGame"){
     playGame();
   }else if(gamestate == "startMenu"){
     startMenu();
+  }else if(gamestate == "paused"){
+    pauseMenu();
   }
   requestAnimationFrame(draw);
 }

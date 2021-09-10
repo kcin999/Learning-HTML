@@ -79,3 +79,8 @@ h2 {
 #main{
     transition: margin-left .5s;
 }
+
+html {
+    min-width: 300px;
+    min-height: 300px;
+}
