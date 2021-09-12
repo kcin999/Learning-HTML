@@ -38,12 +38,6 @@ var score = 0;
 var lives = 3;
 var gamestate = "startMenu"
 
-//menu screen variables
-let startBoxWidth = canvas.width / 4;
-let startBoxHeight = canvas.height / 6;
-let startBoxX = (canvas.width/2) - (startBoxWidth/2)
-let startBoxY = (canvas.height / 2) + (startBoxHeight / 2)
-
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -88,11 +82,17 @@ function getMousePosition(e){
 }
 function mouseClicked(e){
   let mousePos = getMousePosition(e);
-  console.log(mousePos)
 
   if(gamestate == "startMenu"){
-    if((mousePos.x >= startBoxX && mousePos.x <= (startBoxX + startBoxWidth)) && (mousePos.y>=startBoxY && mousePos.y <=(startBoxY+startBoxHeight))){
-      gamestate = "playGame"
+    //Button Data
+    let rectWidth = canvas.width/4;
+    let rectHeight = canvas.height /12;
+    let rectX = (canvas.width - rectWidth) /2;
+    let rectY = (canvas.height/2 + canvas.height /12);
+
+    //Single Player
+    if((mousePos.x >= rectX && mousePos.x <= rectX + rectWidth)&& (mousePos.y >= rectY && mousePos.y <= rectY+rectHeight)){
+        gamestate = "playGame";
     }
   } else if(gamestate == "paused"){
     if((mousePos.x>= (canvas.width/3) && mousePos.x <= (canvas.width-canvas.width/4)) && (mousePos.y >=(canvas.height/3) && mousePos.y <= (canvas.height-canvas.height/3))){
@@ -223,26 +223,25 @@ function playGame(){
 function drawTitle(){
   titleMessage = "Welcome to Brick Breaker"
   ctx.fillStyle = "#FFFFFF";
-  ctx.font  = "17px Arial";
-  xposition = (canvas.width/2) - (ctx.measureText(titleMessage).width/2);
-  yposition = (canvas.height/2) - (ctx.measureText(titleMessage).actualBoundingBoxAscent/2);
-  ctx.fillText(titleMessage,xposition,canvas.height/2);
-  ctx.closePath();
+  ctx.font  = "45px Arial bold";
+  ctx.fillText(titleMessage,(canvas.width - ctx.measureText(titleMessage).width)/2,canvas.height/2);
+
 }
 function drawStartButton(){
-  ctx.rect(startBoxX,startBoxY,startBoxWidth,startBoxHeight)
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fill();
+  //Player Buttons
+  let rectWidth = canvas.width/4;
+  let rectHeight = canvas.height /12;
+  let rectX = (canvas.width - rectWidth) /2;
+  let rectY = (canvas.height/2 + canvas.height /12);
+  ctx.strokeStyle = '#FFFFFF'
+  ctx.font  = "25px Arial bold";
 
-  //Start Phrase
-  text = "Start"
-  ctx.font = "12px Arial"
-  ctx.fillStyle = "#000000"
-  xStartText = startBoxX + (startBoxWidth/2 - (ctx.measureText(text).width/2));
-  yStartText = startBoxY + ((startBoxHeight / 2) + (ctx.measureText(text).actualBoundingBoxAscent/2));
-  ctx.fillText(text,xStartText,yStartText)
+  ctx.rect(rectX, rectY,rectWidth,rectHeight);
+  ctx.stroke();
 
-  ctx.closePath()
+  text = "Start";
+  ctx.fillText(text,(canvas.width - ctx.measureText(text).width)/2,rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent)/2)
+
 }
 function startMenu(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
