@@ -6,14 +6,16 @@ Trying to do this without third part stuff first to see if I can do it (i.e. wit
 ## Things I want to do:
 - [ ] Edit looks of the website
 	- [ ] Add Pictures
-	- [ ] Make more modern, rather than just text
+	- [x] Make more modern, rather than just text. (I like the black clean look)
         - [ ] Slideshow elements about me.  (Xavier, STL, PowerBI etc)
 	- [ ] Scrollable Page
     - [x] Side Navigation Bar. 
         - Helps the site look a lot better and clean. Need to learn how to update the rest of the page for that clean look
 - [ ] Create some Basic Games
 	- [ ] Pong
-	- [ ] Brick Breaker 
+        - [ ] Need to create scoreboard
+	- [x] Brick Breaker 
+    - [ ] Create Database in MySQL for High Scores
 - [ ] Embed some API Calls
     - [ ] Github API
     - [ ] Other Datapints
