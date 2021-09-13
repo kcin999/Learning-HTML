@@ -165,14 +165,18 @@ function drawBricks() {
   }
 }
 function drawScore() {
+  ctx.beginPath();
   ctx.font = "16px Arial";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Score: "+score, 8, 20);
+  ctx.closePath();
 }
 function drawLives() {
+  ctx.beginPath();
   ctx.font = "16px Arial";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  ctx.closePath();
 }
 function playGame(){
   drawBricks();
@@ -221,13 +225,16 @@ function playGame(){
   y += dy;
 }
 function drawTitle(){
+  ctx.beginPath();
   titleMessage = "Welcome to Brick Breaker"
   ctx.fillStyle = "#FFFFFF";
   ctx.font  = "45px Arial bold";
   ctx.fillText(titleMessage,(canvas.width - ctx.measureText(titleMessage).width)/2,canvas.height/2);
+  ctx.closePath();
 
 }
 function drawStartButton(){
+  ctx.beginPath();
   //Player Buttons
   let rectWidth = canvas.width/4;
   let rectHeight = canvas.height /12;
@@ -241,7 +248,7 @@ function drawStartButton(){
 
   text = "Start";
   ctx.fillText(text,(canvas.width - ctx.measureText(text).width)/2,rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent)/2)
-
+  ctx.closePath();
 }
 function startMenu(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -249,6 +256,7 @@ function startMenu(){
   drawStartButton();
 }
 function drawResumeButton(){
+  ctx.beginPath();
   ctx.strokeStyle = 'white';
   ctx.moveTo(canvas.width/3, canvas.height/3);
   ctx.lineTo(canvas.width/3, canvas.height-canvas.height/3);
@@ -256,6 +264,7 @@ function drawResumeButton(){
   ctx.lineTo(canvas.width/3, canvas.height/3);
   ctx.fillStyle = 'white';
   ctx.fill();
+  ctx.closePath();
 }
 function pauseMenu(){
   drawResumeButton();

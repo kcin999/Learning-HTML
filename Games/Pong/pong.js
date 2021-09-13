@@ -28,11 +28,13 @@ var gamestate = "startMenu"
 let p1Score = 0;
 let p2Score = 0;
 let rallyScore = 0;
+randomSayings = ["Better luck next time. :(", "Great Job!", "WOO HOO!!", "All Star!", "I know you can do better next time."];
+randomSayingIndex = -1;
 
 
 //Event listeners
 function keyDownHandler(e) {
-    if(gamestate !="waitingForInputSinglePlayer" && gamestate!= "waitingForInputTwoPlayer"){
+    if(gamestate !="waitingForInputSinglePlayer" && gamestate!= "waitingForInputTwoPlayer" && gamestate != "waitingForInputSinglePlayerRally" &&gamestate != "waitingForInputTwoPlayerRally"){
         if(e.key == "Up" || e.key == "ArrowUp") {
             upPressed = true;
         }else if(e.key == "Down" || e.key == "ArrowDown") {
@@ -47,6 +49,10 @@ function keyDownHandler(e) {
             gamestate = "singlePlayer";
         }else if(gamestate == "waitingForInputTwoPlayer"){
             gamestate = "twoPlayer";
+        }else if(gamestate == "waitingForInputSinglePlayerRally"){
+            gamestate = "singlePlayerRally"
+        }else if(gamestate == "waitingForInputTwoPlayerRally"){
+            gamestate = "twoPlayerRally"
         }
     }
 }
@@ -90,6 +96,14 @@ function mouseClicked(e){
         }else if ((mousePos.x >= rightColumnX && mousePos.x <= rightColumnX + rectWidth) && (mousePos.y >= bottomRowY && mousePos.y <= bottomRowY + rectHeight)){
             gamestate = "waitingForInputTwoPlayerRally";
         }
+    }else if(gamestate == "rallyGameOver"){
+        let rectWidth = canvas.width/3.25;
+        let rectHeight = canvas.height /12;
+        leftRectX = (canvas.width - rectWidth) /2;
+        topRectY = (canvas.height -rectHeight)/2;
+        if((mousePos.x >= leftRectX && mousePos.x <= leftRectX + rectWidth) && (mousePos.y >= topRectY && mousePos.y <= topRectY+rectHeight)){
+            gamestate = "startMenu"
+        }
     }
     
     
@@ -107,6 +121,8 @@ function resetGame(){
     y = canvas.height / 2;
     paddle1Y =(canvas.height-paddleHeight)/2;
     paddle2Y =(canvas.height-paddleHeight)/2;
+    rallyScore = 0;
+    randomSayingIndex = -1
 }
 
 function checkScores(){
@@ -143,6 +159,7 @@ function drawP2Paddle(){
 }
 
 function drawScores(){
+    ctx.beginPath();
     //Draw Dividing Line
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 1;
@@ -162,15 +179,53 @@ function drawScores(){
     playerString = "Player 1";
     ctx.strokeText(playerString,(canvas.width/2 - ctx.measureText(playerString).width)/2,ctx.measureText(playerString).actualBoundingBoxAscent+5);
     playerString = "Player 2";
-    ctx.strokeText(playerString, (3*canvas.width/2 - ctx.measureText(playerString).width)/2,ctx.measureText(playerString).actualBoundingBoxAscent+5)
+    ctx.strokeText(playerString, (3*canvas.width/2 - ctx.measureText(playerString).width)/2,ctx.measureText(playerString).actualBoundingBoxAscent+5);
+    ctx.closePath();
+}
+
+function drawRallyScores(){
+    ctx.beginPath();
+    ctx.font = "bold 72px Arial ";
+    scoreString = rallyScore.toString();
+    ctx.strokeText(scoreString, (canvas.width - ctx.measureText(scoreString).width)/2,canvas.height/6+5);
+    
+    ctx.font = "bold 36px Arial";
+    playerString = "Rally";
+    ctx.strokeText(playerString,(canvas.width - ctx.measureText(playerString).width)/2,ctx.measureText(playerString).actualBoundingBoxAscent+5);
+    ctx.closePath();
 }
 
 function drawRallyOverMenu(){
-    
+    if(randomSayingIndex == -1){
+        randomSayingIndex = Math.floor(Math.random() * randomSayings.length)
+    }
+    ctx.beginPath();
+    text = "You rallied for a total of " + rallyScore.toString() + ". " + randomSayings[randomSayingIndex];
+    ctx.font = "bold 18px Arial ";
+    ctx.fillText(text,(canvas.width - ctx.measureText(text).width)/2, canvas.height/4);
+    ctx.closePath();
+    //See High Scores
+    // TO COME
+
+    //Back to Main Menu
+    ctx.beginPath();
+    let rectWidth = canvas.width/3.25;
+    let rectHeight = canvas.height /12;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.font  = "25px Arial bold";
+    rectX = (canvas.width - rectWidth) /2;
+    rectY = (canvas.height -rectHeight)/2;
+    ctx.rect(rectX, rectY,rectWidth,rectHeight);
+    ctx.stroke();
+
+    text = "Back to Main Menu";
+    ctx.fillText(text,(canvas.width- ctx.measureText(text).width)/2,rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent)/2);
+    ctx.closePath();
 }
 
 function drawStartMenu(){
     //Welcome Text
+    ctx.beginPath();
     text = "Welcome to Pong"
     ctx.fillStyle = "#FFFFFF"
     ctx.font  = "45px Arial bold";
@@ -219,10 +274,18 @@ function drawStartMenu(){
 
     text = "Two Player Rally";
     ctx.fillText(text,(canvas.width + ctx.measureText(text).width)/2,rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent)/2);
+    ctx.closePath();
 }
 
-function drawRallyScores(){
-    
+function drawGamestateNotFound(){
+    ctx.beginPath();
+    text = "Could not find gamestate '" + gamestate+ "'";
+    ctx.font = "bold 32px Arial ";
+    ctx.fillStyle = "#FFFFFF"
+    ctx.fillText(text,(canvas.width - ctx.measureText(text).width)/2, (canvas.height - ctx.measureText(text).actualBoundingBoxAscent)/2);
+    ctx.strokeStyle = "red";
+    ctx.strokeText(text,(canvas.width - ctx.measureText(text).width)/2, (canvas.height - ctx.measureText(text).actualBoundingBoxAscent)/2);
+    ctx.closePath();
 }
 
 //Collision Detection
@@ -421,8 +484,6 @@ function playSinglePlayerRally(){
 
         x += dx;
         y += dy;
-    } else if(gamestate == "rallyGameOver"){
-        drawRallyOverMenu();
     }else {
         ctx.beginPath();
         ctx.font = "bold 32px Arial";
@@ -453,6 +514,10 @@ function draw(){
         playSinglePlayerRally();
     }else if(gamestate =="twoPlayerRally"||gamestate == "waitingForInputTwoPlayerRally"){
         playTwoPlayerRally();
+    }else if(gamestate == "rallyGameOver"){
+        drawRallyOverMenu();
+    }else{
+        drawGamestateNotFound();
     }
     
     requestAnimationFrame(draw);
