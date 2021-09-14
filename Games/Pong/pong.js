@@ -100,9 +100,14 @@ function mouseClicked(e){
         let rectWidth = canvas.width/3.25;
         let rectHeight = canvas.height /12;
         leftRectX = (canvas.width - rectWidth) /2;
-        topRectY = (canvas.height -rectHeight)/2;
+        topRectY = canvas.height - (canvas.height -rectHeight)/4;
         if((mousePos.x >= leftRectX && mousePos.x <= leftRectX + rectWidth) && (mousePos.y >= topRectY && mousePos.y <= topRectY+rectHeight)){
             gamestate = "startMenu"
+        }
+
+        topRectY = (canvas.height - rectHeight) / 2;
+        if((mousePos.x >= leftRectX && mousePos.x <= leftRectX + rectWidth) && (mousePos.y >= topRectY && mousePos.y <= topRectY+rectHeight)){
+            addHighScore();
         }
     }
     
@@ -131,6 +136,31 @@ function checkScores(){
     }else if (p2Score >= 10 && p2Score - p1Score >=2){
         alert("Player 2 has won");
     }
+}
+
+function addHighScore(){
+    playerName = prompt("Insert Player Name\n10 Characters or less","Player Name").trim();
+    while(playerName.length>10){
+        playerName = prompt("Please Try Again\nInsert Player Name\n10 Characters or less","Player Name").trim();
+    }
+    $.ajax({
+        method: "POST",
+        url: "insertScore.php",
+        processData: false,
+        contentType: false,
+        data:{
+            PlayerName:$(playerName),
+            Score: $(rallyScore),
+            GameMode: "OnePlayer"
+        }
+    })
+        .done(function (response){
+            if(response == "Success"){
+                gamestate = "highScores";
+            }else{
+                alert(response);
+            }
+        });
 }
 
 //Draw Functions
@@ -207,7 +237,7 @@ function drawRallyOverMenu(){
     //See High Scores
     // TO COME
 
-    //Back to Main Menu
+    //Add Player Name
     ctx.beginPath();
     let rectWidth = canvas.width/3.25;
     let rectHeight = canvas.height /12;
@@ -215,6 +245,17 @@ function drawRallyOverMenu(){
     ctx.font  = "25px Arial bold";
     rectX = (canvas.width - rectWidth) /2;
     rectY = (canvas.height -rectHeight)/2;
+    ctx.rect(rectX, rectY,rectWidth,rectHeight);
+    ctx.stroke();
+
+    text = "Add High Score";
+    ctx.fillText(text,(canvas.width- ctx.measureText(text).width)/2,rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent)/2);
+    ctx.closePath();
+
+    //Back to Main Menu
+    ctx.beginPath();
+    rectX = (canvas.width - rectWidth) /2;
+    rectY = canvas.height - (canvas.height -rectHeight)/4;
     ctx.rect(rectX, rectY,rectWidth,rectHeight);
     ctx.stroke();
 
@@ -288,6 +329,9 @@ function drawGamestateNotFound(){
     ctx.closePath();
 }
 
+function drawHighScores(){
+
+}
 //Collision Detection
 function collisionDetection(){
     //Top and bottom collision detection
@@ -499,7 +543,6 @@ function playTwoPlayerRally(){
 
 }
 
-
 //main function
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -516,6 +559,8 @@ function draw(){
         playTwoPlayerRally();
     }else if(gamestate == "rallyGameOver"){
         drawRallyOverMenu();
+    }else if(gamestate == "highScores"){
+        drawHighScores();
     }else{
         drawGamestateNotFound();
     }
