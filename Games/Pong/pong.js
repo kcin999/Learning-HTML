@@ -143,24 +143,13 @@ function addHighScore(){
     while(playerName.length>10){
         playerName = prompt("Please Try Again\nInsert Player Name\n10 Characters or less","Player Name").trim();
     }
-    $.ajax({
-        method: "POST",
-        url: "insertScore.php",
-        processData: false,
-        contentType: false,
-        data:{
-            PlayerName:$(playerName),
-            Score: $(rallyScore),
-            GameMode: "OnePlayer"
-        }
-    })
-        .done(function (response){
-            if(response == "Success"){
-                gamestate = "highScores";
-            }else{
-                alert(response);
-            }
-        });
+    console.log(playerName)
+    data = {
+        PlayerName:playerName,
+        Score:rallyScore,
+        GameMode:"OnePlayer"
+    }
+    $.post("insertScore.php", data);
 }
 
 //Draw Functions
