@@ -9,17 +9,16 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT TOP 5 * FROM PongScores WHERE GameMode=? ORDER BY Score DESC";
+$sql = "SELECT * FROM PongScores WHERE GameMode=? ORDER BY Score DESC LIMIT 5";
 $stmt = $conn->prepare($sql);
-// $stmt->bind_param("s", $_GET["GameMode"]);
 
-// if (!$stmt->bind_param("s", $_GET["GameMode"])) {
-//   die( "Error in bind_param: (" .$conn->errno . ") " . $conn->error);
-// }
-// if (!$stmt->execute()) {
-//   die( "Error in execute: (" .$conn->errno . ") " . $conn->error);
-// } else {
-//   echo "Successfully Grabbed Top 5 " . $_GET['GameMode'] . " scores.";
-// }
+if (!$stmt->bind_param("s", $_GET["GameMode"])) {
+  die( "Error in bind_param: (" .$conn->errno . ") " . $conn->error);
+}
+if (!$stmt->execute()) {
+  die( "Error in execute: (" .$conn->errno . ") " . $conn->error);
+}
+$result = $stmt->get_result()->fetch_all();
+echo json_encode($result);
 
 ?>

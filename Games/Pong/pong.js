@@ -24,14 +24,18 @@ let wPressed = false;
 let sPressed = false;
 
 //game variables
-var gamestate = "highScores"
+var gamestate = "startMenu"
 let p1Score = 0;
 let p2Score = 0;
 let rallyScore = 0;
 randomSayings = ["Better luck next time. :(", "Great Job!", "WOO HOO!!", "All Star!", "I know you can do better next time."];
 randomSayingIndex = -1;
 
-triggered = false;
+
+//Score Variables
+let top5OnePlayerScores = "";
+let top5TwoPlayerScore = "";
+let triggered = false;
 
 //Event listeners
 function keyDownHandler(e) {
@@ -97,13 +101,6 @@ function mouseClicked(e) {
         } else if ((mousePos.x >= rightColumnX && mousePos.x <= rightColumnX + rectWidth) && (mousePos.y >= bottomRowY && mousePos.y <= bottomRowY + rectHeight)) {
             gamestate = "waitingForInputTwoPlayerRally";
         }
-
-        rectWidth = canvas.width / 3.6;
-        rectX = (canvas.width - rectWidth) / 2;
-        rectY = (canvas.height + bottomRowY) / 2;
-        if((mousePos.x >= rectX && mousePos.x <= rectX + rectWidth) && (mousePos.y>=rectY && mousePos.y<=rectY+rectHeight)){
-            gamestate = "highScores"
-        }
     } else if (gamestate == "rallyGameOver") {
         let rectWidth = canvas.width / 3.25;
         let rectHeight = canvas.height / 12;
@@ -157,7 +154,7 @@ function addHighScore() {
         Score: rallyScore,
         GameMode: "OnePlayer"
     }
-    $.post("insertScore.php", data, gamestate = "highscores");
+    $.post("insertScore.php", data, gamestate = "startMenu");
 }
 
 //Draw Functions
@@ -313,15 +310,7 @@ function drawStartMenu() {
     text = "Two Player Rally";
     ctx.fillText(text, (canvas.width + ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
 
-    rectWidth = canvas.width / 3.6;
-    rectX = (canvas.width - rectWidth) / 2;
-    rectY = (canvas.height + (rectY)) / 2;
-    ctx.rect(rectX, rectY, rectWidth, rectHeight);
-    ctx.stroke();
 
-    text = "View High Scores";
-    ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
-    ctx.closePath();
 }
 
 function drawGamestateNotFound() {
@@ -335,30 +324,6 @@ function drawGamestateNotFound() {
     ctx.closePath();
 }
 
-function drawHighScores() {
-    ctx.beginPath();
-    text = "High Scores"
-    ctx.fillStyle = "#FFFFFF"
-    ctx.font = "45px Arial bold";
-    ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, canvas.height / 10);
-    ctx.closePath();
-
-    drawSinglePlayerScores();
-}
-
-function drawSinglePlayerScores(){
-    data = {
-        GameMode:"OnePlayer"
-    }
-    if(!triggered){
-        $.get("getScores.php",data);
-        triggered = true;
-    }
-}
-
-function drawTwoPlayerScores(){
-
-}
 //Collision Detection
 function collisionDetection() {
     //Top and bottom collision detection
@@ -586,9 +551,7 @@ function draw() {
         playTwoPlayerRally();
     } else if (gamestate == "rallyGameOver") {
         drawRallyOverMenu();
-    } else if (gamestate == "highScores") {
-        drawHighScores();
-    } else {
+    }else {
         drawGamestateNotFound();
     }
 
