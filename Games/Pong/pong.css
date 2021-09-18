@@ -22,3 +22,11 @@ canvas{
     width: 25%;
     padding-top: 10%;
 }
+
+.leftScoreTable{
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+  padding: 10px;
+  text-align: center;
+}

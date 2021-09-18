@@ -110,7 +110,8 @@ function mouseClicked(e) {
         leftRectX = (canvas.width - rectWidth) / 2;
         topRectY = canvas.height - (canvas.height - rectHeight) / 4;
         if ((mousePos.x >= leftRectX && mousePos.x <= leftRectX + rectWidth) && (mousePos.y >= topRectY && mousePos.y <= topRectY + rectHeight)) {
-            gamestate = "startMenu"
+            resetGame();
+            gamestate = "startMenu";
         }
 
         topRectY = (canvas.height - rectHeight) / 2;
@@ -128,8 +129,8 @@ document.addEventListener("click", mouseClicked, false);
 
 //Game Functions
 function resetGame() {
-    dx = 3;
-    dy = 3;
+    dx = canvas.width/320;
+    dy = canvas.width/320;
     x = canvas.width / 2;
     y = canvas.height / 2;
     paddle1Y = (canvas.height - paddleHeight) / 2;
