@@ -8,13 +8,13 @@ canvas.height = (3*canvas.width)/4;
 //Ball Variables
 let x = canvas.width / 2;
 let y = canvas.height / 2;
-let ballRadius = 10;
-let dx = 3;
-let dy = 3;
+let ballRadius = canvas.width/96;
+let dx = canvas.width/320;
+let dy = canvas.width/320;
 
 //paddle elements
-var paddleHeight = 75;
-var paddleWidth = 10;
+var paddleHeight = canvas.height/9.6;
+var paddleWidth = canvas.width/96;
 var paddle1X = 0;
 var paddle1Y = (canvas.height - paddleHeight) / 2;
 var paddle2X = canvas.width - paddleWidth;
@@ -161,6 +161,24 @@ function addHighScore() {
 }
 
 //Draw Functions
+function findTextSize(text, fontface, maxWidth, maxHeight){
+    let fontsize = 300;
+
+    if(maxHeight == -1){
+        maxHeight = 9000000000000000;
+    }
+    ctx.font = fontsize+"px " + fontface;
+    let textWidth = ctx.measureText(text).width;
+    let textHeight = ctx.measureText(text).actualBoundingBoxAscent;
+    while(ctx.measureText(text).width>= maxWidth - canvas.width /25 || ctx.measureText(text).actualBoundingBoxAscent >= maxHeight){
+        fontsize--;
+        ctx.font = fontsize+"px " + fontface;
+        textWidth = ctx.measureText(text).width;
+        textHeight = ctx.measureText(text).actualBoundingBoxAscent;
+    }
+    return fontsize+"px " + fontface;
+}
+
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -212,13 +230,13 @@ function drawScores() {
 
 function drawRallyScores() {
     ctx.beginPath();
-    ctx.font = "bold 72px Arial ";
     scoreString = rallyScore.toString();
-    ctx.strokeText(scoreString, (canvas.width - ctx.measureText(scoreString).width) / 2, canvas.height / 6 + 5);
+    ctx.font = findTextSize(scoreString,"bold Arial",canvas.width /10,-1);
+    ctx.strokeText(scoreString, (canvas.width - ctx.measureText(scoreString).width) / 2, canvas.height / 6 + 5 + canvas.width/20);
 
-    ctx.font = "bold 36px Arial";
     playerString = "Rally";
-    ctx.strokeText(playerString, (canvas.width - ctx.measureText(playerString).width) / 2, ctx.measureText(playerString).actualBoundingBoxAscent + 5);
+    ctx.font = findTextSize(playerString,"bold Arial",canvas.width /6,-1);
+    ctx.strokeText(playerString, (canvas.width - ctx.measureText(playerString).width) / 2, ctx.measureText(playerString).actualBoundingBoxAscent +5);
     ctx.closePath();
 }
 
@@ -228,24 +246,22 @@ function drawRallyOverMenu() {
     }
     ctx.beginPath();
     text = "You rallied for a total of " + rallyScore.toString() + ". " + randomSayings[randomSayingIndex];
-    ctx.font = "bold 18px Arial ";
+    ctx.font = findTextSize(text,"bold Arial",canvas.width/1.5,-1);
     ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, canvas.height / 4);
     ctx.closePath();
-    //See High Scores
-    // TO COME
 
     //Add Player Name
     ctx.beginPath();
     let rectWidth = canvas.width / 3.25;
     let rectHeight = canvas.height / 12;
     ctx.strokeStyle = '#FFFFFF';
-    ctx.font = "25px Arial bold";
     rectX = (canvas.width - rectWidth) / 2;
     rectY = (canvas.height - rectHeight) / 2;
     ctx.rect(rectX, rectY, rectWidth, rectHeight);
     ctx.stroke();
-
+    
     text = "Add High Score";
+    ctx.font = findTextSize(text,"Arial bold",rectX,rectY);
     ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
     ctx.closePath();
 
@@ -257,6 +273,7 @@ function drawRallyOverMenu() {
     ctx.stroke();
 
     text = "Back to Main Menu";
+    ctx.font = findTextSize(text,"Arial bold",rectX,rectY);
     ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
     ctx.closePath();
 }
@@ -266,23 +283,23 @@ function drawStartMenu() {
     ctx.beginPath();
     text = "Welcome to Pong"
     ctx.fillStyle = "#FFFFFF"
-    ctx.font = "45px Arial bold";
-    ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, canvas.height / 2);
+    ctx.font = findTextSize(text,"bold Arial",canvas.width/1.5, -1);
+    ctx.fillText(text, (canvas.width - ctx.measureText(text).width) / 2, canvas.height / 4);
 
     //Player Buttons
     let rectWidth = canvas.width / 3.95;
     let rectHeight = canvas.height / 12;
     ctx.strokeStyle = '#FFFFFF';
-    ctx.font = "25px Arial bold";
-
-
+    
+    
     //single player
     rectX = (canvas.width / 2 - rectWidth) / 2;
     rectY = (canvas.height / 2 + canvas.height / 12);
     ctx.rect(rectX, rectY, rectWidth, rectHeight);
     ctx.stroke();
-
+    
     text = "One Player";
+    ctx.font = findTextSize(text, "Arial bold", rectWidth,rectHeight);
     ctx.fillText(text, (canvas.width / 2 - ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2)
 
     //single player rally
@@ -292,6 +309,7 @@ function drawStartMenu() {
     ctx.stroke();
 
     text = "One Player Rally";
+    ctx.font = findTextSize(text, "Arial bold", rectWidth,rectHeight);
     ctx.fillText(text, (canvas.width / 2 - ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
 
     //two player
@@ -302,7 +320,8 @@ function drawStartMenu() {
     ctx.stroke();
 
     text = "Two Player";
-    ctx.fillText(text, (canvas.width / 2 + ctx.measureText(text).width), rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
+    ctx.font = findTextSize(text, "Arial bold", rectWidth,rectHeight);
+    ctx.fillText(text, rectX + (rectWidth - ctx.measureText(text).width)/2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
 
     //two player rally
     rectX = (3 * canvas.width / 2 - rectWidth) / 2;
@@ -311,7 +330,8 @@ function drawStartMenu() {
     ctx.stroke();
 
     text = "Two Player Rally";
-    ctx.fillText(text, (canvas.width + ctx.measureText(text).width) / 2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
+    ctx.font = findTextSize(text, "Arial bold", rectWidth,rectHeight);
+    ctx.fillText(text, rectX + (rectWidth - ctx.measureText(text).width)/2, rectY + (rectHeight + ctx.measureText(text).actualBoundingBoxAscent) / 2);
 
 
 }
@@ -525,10 +545,10 @@ function playSinglePlayerRally() {
         y += dy;
     } else {
         ctx.beginPath();
-        ctx.font = "bold 32px Arial";
         ctx.lineWidth = 1;
         text = "Press any key to play/resume";
         ctx.strokeStyle = "#FFFFFF";
+        ctx.font = findTextSize(text,"bold Arial",canvas.width/2,-1);
         ctx.strokeText(text, (canvas.width - ctx.measureText(text).width) / 2, canvas.height - 2 * ctx.measureText(text).actualBoundingBoxAscent);
         ctx.closePath();
     }
