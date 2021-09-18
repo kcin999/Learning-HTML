@@ -3,6 +3,22 @@ canvas{
     background: black;
 }
 
-.column{
+.leftScoreColumn{
+    float: left;
+    position: relative;
+    width: 25%;
+    padding-top: 10%;
+}
+.gameSection{
     float:left;
+    position: relative;
+    width:50%;
+    padding-top: 2%
+    
+}
+.rightScoreColumn{
+    float: right;
+    position: relative;
+    width: 25%;
+    padding-top: 10%;
 }

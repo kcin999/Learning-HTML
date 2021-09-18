@@ -1,6 +1,9 @@
 //canvas elements
-var canvas = document.getElementById("ballBreakerCanvas");
+var canvas = document.getElementById("PongCanvas");
 var ctx = canvas.getContext("2d");
+
+canvas.width=window.innerWidth/2;
+canvas.height = (3*canvas.width)/4; 
 
 //Ball Variables
 let x = canvas.width / 2;
