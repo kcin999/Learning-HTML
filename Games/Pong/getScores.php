@@ -19,6 +19,11 @@ if (!$stmt->execute()) {
   die( "Error in execute: (" .$conn->errno . ") " . $conn->error);
 }
 $result = $stmt->get_result()->fetch_all();
-echo json_encode($result);
 
+$text = "<table border=1><th>Name</th><th>Score</th>";
+for($i = 0; $i< count($result); $i++){
+  $text = $text."<tr><td>".$result[$i][0]."</td><td>".$result[$i][1]."</td></tr>";
+}
+
+echo $text."</table>"
 ?>
