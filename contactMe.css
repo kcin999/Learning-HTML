@@ -5,12 +5,13 @@
 }
 
 .contactMeLeftDiv{
+    float: left;
     width: 50%;
-    margin-right: -5%;
 }
 .contactMeRightDiv{
+    float: right;
     margin-top: 4%;
-    flex-grow: 1;
+    width: 50%;
     text-align: left;
 }
 

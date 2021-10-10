@@ -23,7 +23,7 @@ canvas{
     padding-top: 10%;
 }
 
-.leftScoreTable{
-    text-align: center;
-    border: 3px solid green;
+.scoreTable{
+    padding-left: 4.5vw; 
+    height: 60vh;
 }
