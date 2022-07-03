@@ -9,3 +9,10 @@ def index():
 @auth.route("/home")
 def welcome_home():
 	return {'message': 'this is text'}
+
+@auth.route("/developer_info")
+def get_developer_info():
+	return {
+		'firstName': 'Nicholas',
+		'lastName': 'Bierman'
+	}
