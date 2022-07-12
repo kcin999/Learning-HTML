@@ -16,7 +16,8 @@ What do I want to visualize:
 3. Run `pip install -r requirements.txt` to install all dependencies
 4. Set Environment Variables on you system:
 ```
-
+FLASK_SECRET_KEY
+SQLALCHEMY_DATABASE_URI
 ```
 5. Run `python -m backend`. You will see an alert in terminal saying 'Service Flask app'.
 	It defaults to being run at localhost:8000.

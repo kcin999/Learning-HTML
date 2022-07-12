@@ -21,8 +21,11 @@ login_manager.init_app(app)
 def load_user(user_id):
 	return User.query.get(user_id)
 
-from backend.auth import auth
+from backend.Blueprints.auth.auth import auth
 app.register_blueprint(auth)
+
+from backend.Blueprints.robinhood.robinhood import robinhood
+app.register_blueprint(robinhood)
 
 with app.app_context():
 	db.create_all()
