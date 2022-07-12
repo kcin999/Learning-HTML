@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 
 @Component({
@@ -12,14 +13,19 @@ export class LoginComponent implements OnInit {
   username = new FormControl(undefined, [Validators.required]);
   password = new FormControl(undefined, [Validators.required]);
   hidePassword = true;
+  invalidLogin = false;
 
-  constructor(private authService: AuthService) { }
+  user_data: {name: string, username: string}
+
+  constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
     this.login = new FormGroup({
       username: this.username,
       password: this.password
-    })
+    });
+
+    this.user_data = {name: "", username: ""}
   }
 
   getUsernameErrorMessage(){
@@ -30,8 +36,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.login.value)
-    this.authService.login(this.login.value['username'], this.login.value['password']);
+    this.authService.login(this.login.value['username'], this.login.value['password']).subscribe(data => {
+      console.log(data)
+      this.route.navigate(['/home']);
+      this.invalidLogin = false;
+
+      this.authService.get_user_data().subscribe(data => {
+        this.user_data = data;
+      })
+    },error => {
+      this.invalidLogin = true;
+    });
   }
 
 }

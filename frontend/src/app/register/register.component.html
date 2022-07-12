@@ -1,7 +1,19 @@
 <mat-card>
 	<mat-card-content>
-		<h2>Login</h2>
-		<form [formGroup]="login" fxLayout="column" (ngSubmit)="onSubmit()">
+		<h2>Register</h2>
+		<form [formGroup]="registerForm" fxLayout="column" (ngSubmit)="onSubmit()">
+			<mat-form-field>
+				<mat-label>Name</mat-label>
+				<input matInput formControlName="name">
+				<mat-hint *ngIf="!name.value">Enter your name</mat-hint>
+				<mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput formControlName="email">
+				<mat-hint *ngIf="!email.value">Enter your email</mat-hint>
+				<mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+			</mat-form-field>
 			<mat-form-field>
 				<mat-label>Username</mat-label>
 				<input matInput formControlName="username">
@@ -17,10 +29,8 @@
 				<mat-hint *ngIf="!password.value">Enter your password</mat-hint>
 				<mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
 			</mat-form-field>
-			<button mat-raised-button type="submit" [disabled]="login.invalid">Submit</button>
-			<mat-error *ngIf="invalidLogin">Unable to Login. Please try again</mat-error>
+			<button mat-raised-button type="submit" [disabled]="registerForm.invalid">Submit</button>
 			<a routerLink="/register">Register</a>
 		</form>
 	</mat-card-content>
 </mat-card>
-<p>Name: {{user_data.name}} Username: {{user_data.username}}</p>

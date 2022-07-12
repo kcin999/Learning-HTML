@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -11,30 +11,41 @@ export class AuthService {
   isLoggedIn = new BehaviorSubject<boolean>(false)
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(username: string, password: string): void {
-    let body = {
-      username: username,
-      password: password
-    }
-    console.log(body)
-    this.http.post(environment.backendurl + 'login', body).subscribe((response) => {
-      this.isLoggedIn.next(true);
-      this.router.navigate(['/home'])
-    },
-      (error) => {
-        console.log(error)
-        this.isLoggedIn.next(false);
+  login(username: string, password: string): Observable<any> {
+    let body = new URLSearchParams();
+    body.set('username', username);
+    body.set('password', password);
 
-      })
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.post(environment.backendurl + 'login', body, { headers: headers, withCredentials: true });
+  }
+
+  register(username: string, password: string, email: string, name: string): Observable<any> {
+    let body = new URLSearchParams();
+    body.set('username', username);
+    body.set('password', password);
+    body.set('email', email);
+    body.set('name', name);
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.post(environment.backendurl + 'register', body, { headers: headers, withCredentials: true });
   }
 
   logout() {
-    this.http.get(environment.backendurl + 'logout').subscribe((response) => {
-      this.isLoggedIn.next(false);
-    })
+    return this.http.get(environment.backendurl + 'logout', { withCredentials: true });
   }
 
-  isAuthenticated() {
-    return this.http.get(environment.backendurl + 'isAuthenticated')
+  isAuthenticated(): Observable<any> {
+    return this.http.get(environment.backendurl + 'is_authenticated', { withCredentials: true });
+  }
+
+  get_user_data(): Observable<any> {
+    return this.http.get(environment.backendurl + 'get_user_data', { withCredentials: true });
   }
 }

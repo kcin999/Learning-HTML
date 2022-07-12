@@ -11,12 +11,9 @@ def index():
 
 @auth.route("/login", methods=['POST'])
 def login():
-	username = request.form['username']
-	password = request.form['password']
+	username = request.form.get('username')
+	password = request.form.get('password')
 
-	print(username)
-	print(password)
-	
 	user = db.session.query(User).filter_by(username=username).first()
 
 	if not user or not sha256_crypt.verify(password, user.password):
@@ -24,9 +21,11 @@ def login():
 
 	login_user(user)
 
-	return "", 200
+	return {
+		'message': 'Successful Login'
+	}
 
-@auth.route("/signup", methods=['POST'])
+@auth.route("/register", methods=['POST'])
 def signup():
 	email = request.form.get('email')
 	username = request.form.get('username')
@@ -50,9 +49,11 @@ def signup():
 
 	return "", 201
 
-@auth.route("/isAuthenticated", methods=['GET'])
-def isAuthenticated():
-	return str(current_user.is_authenticated)
+@auth.route("/is_authenticated", methods=['GET'])
+def is_authenticated():
+	return {
+		'status': current_user.is_authenticated
+	}
 
 @auth.route("/get_user_data", methods=['GET'])
 @login_required

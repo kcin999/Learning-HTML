@@ -1,4 +1,5 @@
-from flask import Flask
+from datetime import timedelta
+from flask import Flask, session
 from backend.models import db, User
 from flask_login import LoginManager
 from backend.config import DevConfig
@@ -6,28 +7,24 @@ from flask_cors import CORS
 
 login_manager = LoginManager()
 
-def create_app():
-	app = Flask(__name__)
+app = Flask(__name__)
 
-	CORS(app)
-	app.config.from_object(DevConfig)
+CORS(app, supports_credentials=True)
 
-	db.init_app(app)
+app.config.from_object(DevConfig)
 
-	login_manager.init_app(app)
+db.init_app(app)
 
-	@login_manager.user_loader
-	def load_user(user_id):
-		return User.query.get(user_id)
+login_manager.init_app(app)
 
-	from backend.auth import auth
-	app.register_blueprint(auth)
+@login_manager.user_loader
+def load_user(user_id):
+	return User.query.get(user_id)
 
-	with app.app_context():
-		db.create_all()
+from backend.auth import auth
+app.register_blueprint(auth)
 
-	return app
+with app.app_context():
+	db.create_all()
 
-if __name__ == "__main__":
-	app = create_app()
-	app.run(port=8000)
+app.run(port=8000)
