@@ -38,7 +38,9 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.get(environment.backendurl + 'logout', { withCredentials: true });
+    return this.http.get(environment.backendurl + 'logout', { withCredentials: true }).subscribe(data => {
+      this.router.navigate(['/home'])
+    });
   }
 
   isAuthenticated(): Observable<any> {

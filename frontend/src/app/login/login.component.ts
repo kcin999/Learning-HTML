@@ -15,8 +15,6 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
   invalidLogin = false;
 
-  user_data: {name: string, username: string}
-
   constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
@@ -25,7 +23,6 @@ export class LoginComponent implements OnInit {
       password: this.password
     });
 
-    this.user_data = {name: "", username: ""}
   }
 
   getUsernameErrorMessage(){
@@ -40,10 +37,6 @@ export class LoginComponent implements OnInit {
       console.log(data)
       this.route.navigate(['/home']);
       this.invalidLogin = false;
-
-      this.authService.get_user_data().subscribe(data => {
-        this.user_data = data;
-      })
     },error => {
       this.invalidLogin = true;
     });

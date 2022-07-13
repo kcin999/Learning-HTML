@@ -17,10 +17,9 @@
 				<mat-hint *ngIf="!password.value">Enter your password</mat-hint>
 				<mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
 			</mat-form-field>
-			<button mat-raised-button type="submit" [disabled]="login.invalid">Submit</button>
+			<button mat-raised-button type="submit" color="primary" [disabled]="login.invalid">Submit</button>
 			<mat-error *ngIf="invalidLogin">Unable to Login. Please try again</mat-error>
-			<a routerLink="/register">Register</a>
+			<a mat-raised-button routerLink="/register">Register</a>
 		</form>
 	</mat-card-content>
 </mat-card>
-<p>Name: {{user_data.name}} Username: {{user_data.username}}</p>

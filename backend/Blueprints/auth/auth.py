@@ -47,7 +47,9 @@ def signup():
 	db.session.add(new_user)
 	db.session.commit()
 
-	return "", 201
+	return {
+		"message": "User Created"
+	}
 
 @auth.route("/is_authenticated", methods=['GET'])
 def is_authenticated():
@@ -60,11 +62,14 @@ def is_authenticated():
 def get_user_data():
 	return {
 		"name": current_user.name,
-		"username": current_user.username
+		"username": current_user.username,
+		"email": current_user.email
 	}
 
 @auth.route("/logout")
 @login_required
 def logout():
 	logout_user()
-	return "Logout Successful", 200
+	return {
+		"status": "Logout Successful"
+	}
