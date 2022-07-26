@@ -36,5 +36,10 @@ class User(UserMixin, db.Model):
 		default=datetime.datetime.utcnow
 	)
 
+	admin = db.Column(
+		db.Boolean,
+		default=False
+	)
+
 	def __repr__(self):
 		return f"id: {self.id}, name: {self.name}, email: {self.email}, username: {self.username}"
